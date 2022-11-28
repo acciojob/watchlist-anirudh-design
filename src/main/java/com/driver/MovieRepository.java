@@ -75,17 +75,22 @@ public class MovieRepository {
         return null;
     }
 
-    public List<Movie> getMoviesListFromDB(String directorName){
+    public List<String> getMoviesListFromDB(String directorName){
+        List<String> res=new ArrayList<>();
         for(Director d:hm.keySet()){
-            if(d!=null && d.getName().equals(directorName)) return hm.get(d);
+            if(d!=null && d.getName().equals(directorName)){
+                List<Movie> movies=hm.get(d);
+                for(Movie m:movies) res.add(m.getName());
+                break;
+            }
         }
         return null;
     }
 
-    public List<Movie> getAllMoviesFromDB(){
-        List<Movie> allMovies=new ArrayList<>();
+    public List<String> getAllMoviesFromDB(){
+        List<String> allMovies=new ArrayList<>();
         for(Director d:hm.keySet()){
-            for(Movie m:hm.get(d)) allMovies.add(m);
+            for(Movie m:hm.get(d)) allMovies.add(m.getName());
         }
         return allMovies;
     }

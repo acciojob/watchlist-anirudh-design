@@ -33,11 +33,11 @@ public class MovieService {
         return movieRepository.getDirectorFromDB(directorName);
     }
 
-    public List<Movie> getMoviesListService(String directorName){
+    public List<String> getMoviesListService(String directorName){
         return movieRepository.getMoviesListFromDB(directorName);
     }
 
-    public List<Movie> getAllMoviesService(){
+    public List<String> getAllMoviesService(){
         return movieRepository.getAllMoviesFromDB();
     }
 
