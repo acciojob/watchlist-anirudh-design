@@ -9,7 +9,7 @@ import java.util.List;
 
 @RestController
 public class MovieController {
-    @Autowired// comment
+    @Autowired
     MovieService movieService;
 
     @PostMapping("/movies/add-movie")
