@@ -54,7 +54,7 @@ public class MovieRepository {
                 break;
             }
         }
-        if(m1==null) return "Movie is already paired with a Director in the database";
+        if(m1==null) return "Either Movie is not there in the database or the Movie is already paired with a Director in the database";
         if(x.contains(m1)) return "Director-Movie pair already exists in the database";
         List<Movie> y=hm.get(null);
         y.remove(m1);
