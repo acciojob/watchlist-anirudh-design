@@ -47,26 +47,18 @@ public class MovieRepository {
             }
         }
         Movie m1=null;
-        for(Director d:hm.keySet()){
-            List<Movie> movies=hm.get(d);
-            for(Movie m:movies){
-                if(m.getName().equals(movieName)){
-                    m1=m;
-                    break;
-                }
+        List<Movie> movies=hm.get(null);
+        for(Movie m:movies){
+            if(m.getName().equals(movieName)){
+                m1=m;
+                break;
             }
         }
+        if(m1==null) return "Movie is already paired with a Director in the database";
         if(x.contains(m1)) return "Director-Movie pair already exists in the database";
-        for(Director d:hm.keySet()){
-            List<Movie> movies=hm.get(d);
-            for(Movie m:movies){
-                if(m==m1){
-                    movies.remove(m);
-                    hm.put(d, movies);
-                    break;
-                }
-            }
-        }
+        List<Movie> y=hm.get(null);
+        y.remove(m1);
+        hm.put(null, y);
         if(hm.get(null).size()==0) hm.remove(null);
         if(!x.contains(m1)) x.add(m1);
         return "Director-Movie pair added successfully to the database";
