@@ -13,24 +13,32 @@ import java.util.Map;
 public class MovieRepository {
     Map<Director, List<Movie>> hm=new HashMap<>();
 
-    public void addMovieToDB(Movie movie){
+    public String addMovieToDB(Movie movie){
+        List<Movie> movies;
         if(hm.size()==0){
-            List<Movie> movies=new ArrayList<>();
-            movies.add(movie);
-            hm.put(null, movies);
+            movies = new ArrayList<>();
         }
         else{
-            List<Movie> movies=hm.get(null);
-            movies.add(movie);
-            hm.put(null, movies);
+            for(Director d:hm.keySet()){
+                List<Movie> x=hm.get(d);
+                for(Movie m:x){
+                    if(m.getName().equals(movie.getName())) return "Movie already there in the database";
+                }
+            }
+            movies = hm.get(null);
         }
+        movies.add(movie);
+        hm.put(null, movies);
+        return "Movie added successfully";
     }
 
-    public void addDirectorToDB(Director director){
+    public String addDirectorToDB(Director director){
+        if(hm.containsKey(director)) return "Director already added to the database";
         hm.put(director, new ArrayList<Movie>());
+        return "Director added successfully to the database";
     }
 
-    public void addMovieDirectorPairToDB(String movieName, String directorName){
+    public String addMovieDirectorPairToDB(String movieName, String directorName){
         List<Movie> x=null;
         for(Director d:hm.keySet()){
             if(d!=null && d.getName().equals(directorName)) {
@@ -48,6 +56,7 @@ public class MovieRepository {
                 }
             }
         }
+        if(x.contains(m1)) return "Director-Movie pair already exists in the database";
         for(Director d:hm.keySet()){
             List<Movie> movies=hm.get(d);
             for(Movie m:movies){
@@ -60,6 +69,7 @@ public class MovieRepository {
         }
         if(hm.get(null).size()==0) hm.remove(null);
         if(!x.contains(m1)) x.add(m1);
+        return "Director-Movie pair added successfully to the database";
     }
 
     public Movie getMovieFromDB(String movieName){
@@ -95,19 +105,25 @@ public class MovieRepository {
         return allMovies;
     }
 
-    public void deleteDirectorMoviesFromDB(String directorName){
+    public String deleteDirectorMoviesFromDB(String directorName){
+        boolean f=false;
         for(Director d:hm.keySet()){
             if(d!=null && d.getName().equals(directorName)){
+                f=true;
                 hm.remove(d);
                 break;
             }
         }
+        if(f) return "Director and his/her movies deleted from database";
+        return "Director with given name does not exist in the database";
     }
 
-    public void deleteAllDirectorMoviesFromDB(){
+    public String deleteAllDirectorMoviesFromDB(){
+        if(hm.size()==0) return "The database is empty";
         for(Director d:hm.keySet()){
             if(d!=null) hm.remove(d);
         }
+        return "All the directors and their movies deleted from the database";
     }
 
 }

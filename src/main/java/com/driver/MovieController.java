@@ -14,23 +14,12 @@ public class MovieController {
 
     @PostMapping("/movies/add-movie")
     public ResponseEntity<String> addMovie(@RequestBody() Movie movie){
-        try {
-            movieService.addMovieService(movie);
-        }catch (Exception e){
-            e.printStackTrace();
-            return new ResponseEntity("Some error in method", HttpStatus.BAD_REQUEST);
-        }
-        return new ResponseEntity<>("Movie added successfully", HttpStatus.CREATED);
+        return new ResponseEntity<>(movieService.addMovieService(movie), HttpStatus.CREATED);
     }
 
     @PostMapping("/movies/add-director")
     public ResponseEntity<String> addDirector(@RequestBody() Director director){
-        try {
-            movieService.addDirectorService(director);
-        }catch (Exception e){
-            return new ResponseEntity("Some error in method", HttpStatus.BAD_REQUEST);
-        }
-        return new ResponseEntity<>("Director added successfully", HttpStatus.CREATED);
+        return new ResponseEntity<>(movieService.addDirectorService(director), HttpStatus.CREATED);
     }
 
     @PutMapping("/movies/add-movie-director-pair")
@@ -65,22 +54,12 @@ public class MovieController {
 
     @DeleteMapping("/movies/delete-director-by-name")
     public ResponseEntity<String> deleteDirectorByName(@RequestParam("director") String directorName){
-        try {
-            movieService.deleteDirectorMoviesService(directorName);
-        }catch (Exception e){
-            return new ResponseEntity("Some error in method", HttpStatus.BAD_REQUEST);
-        }
-        return new ResponseEntity<>("Director and his/her movies deleted from database", HttpStatus.OK);
+        return new ResponseEntity<>(movieService.deleteDirectorMoviesService(directorName), HttpStatus.OK);
     }
 
     @DeleteMapping("/movies/delete-all-directors")
     public ResponseEntity<String> deleteAllDirectors(){
-        try {
-            movieService.deleteAllDirectorMoviesService();
-        }catch (Exception e){
-            return new ResponseEntity("Some error in method", HttpStatus.BAD_REQUEST);
-        }
-        return new ResponseEntity<>("All the directors and their movies deleted from the database", HttpStatus.OK);
+        return new ResponseEntity<>(movieService.deleteAllDirectorMoviesService(), HttpStatus.OK);
     }
 
 }
