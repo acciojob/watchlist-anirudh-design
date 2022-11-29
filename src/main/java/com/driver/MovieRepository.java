@@ -19,6 +19,12 @@ public class MovieRepository {
             movies = new ArrayList<>();
         }
         else{
+            for(Director d:hm.keySet()){
+                List<Movie> x=hm.get(d);
+                for(Movie m:x){
+                    if(m.getName().equals(movie.getName())) return;
+                }
+            }
             movies = hm.get(null);
         }
         movies.add(movie);
@@ -26,30 +32,33 @@ public class MovieRepository {
     }
 
     public void addDirectorToDB(Director director){
+        if(hm.containsKey(director)) return;
         hm.put(director, new ArrayList<Movie>());
     }
 
     public void addMovieDirectorPairToDB(String movieName, String directorName){
-        for(Director d:hm.keySet()){
-            List<Movie> x=null;
-            if(d!=null && d.getName().equals(directorName)) x =hm.get(d);
-            List<Movie> y=hm.get(null);
-            boolean flag=false;
-            Movie m1=null;
-            for(Movie m:y){
-                if(m.getName().equals(movieName)){
-                    m1=m;
-                    flag=true;
-                    x.add(m);
-                    hm.put(d, x);
-                }
-            }
-            if(flag){
-                y.remove(m1);
-                hm.put(null, y);
+        List<Movie> x=null;
+        for(Director d:hm.keySet()) {
+            if (d != null && d.getName().equals(directorName)) {
+                x = hm.get(d);
+                break;
             }
         }
+        Movie m1=null;
+        List<Movie> movies=hm.get(null);
+        for(Movie m:movies){
+            if(m.getName().equals(movieName)) {
+                m1 = m;
+                break;
+            }
+        }
+        if(m1==null) return;
+        if(x.contains(m1)) return;
+        List<Movie> y=hm.get(null);
+        y.remove(m1);
+        hm.put(null, y);
         if(hm.get(null).size()==0) hm.remove(null);
+        if(!x.contains(m1)) x.add(m1);
     }
 
     public Movie getMovieFromDB(String movieName){
@@ -71,6 +80,7 @@ public class MovieRepository {
             if(d!=null && d.getName().equals(directorName)){
                 List<Movie> movies=hm.get(d);
                 for(Movie m:movies) res.add(m.getName());
+                break;
             }
         }
         return null;
@@ -93,6 +103,7 @@ public class MovieRepository {
     }
 
     public void deleteAllDirectorMoviesFromDB(){
+        if(hm.size()==0) return;
         for(Director d:new ArrayList<>(hm.keySet())){
             if(d!=null) hm.remove(d);
         }
