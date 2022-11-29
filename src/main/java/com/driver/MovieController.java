@@ -14,12 +14,14 @@ public class MovieController {
 
     @PostMapping("/movies/add-movie")
     public ResponseEntity<String> addMovie(@RequestBody() Movie movie){
-        return new ResponseEntity<>(movieService.addMovieService(movie), HttpStatus.CREATED);
+        movieService.addMovieService(movie);
+        return new ResponseEntity<>("success", HttpStatus.CREATED);
     }
 
     @PostMapping("/movies/add-director")
     public ResponseEntity<String> addDirector(@RequestBody() Director director){
-        return new ResponseEntity<>(movieService.addDirectorService(director), HttpStatus.CREATED);
+        movieService.addDirectorService(director);
+        return new ResponseEntity<>("success", HttpStatus.CREATED);
     }
 
     @PutMapping("/movies/add-movie-director-pair")
@@ -29,7 +31,7 @@ public class MovieController {
         }catch (Exception e){
             return new ResponseEntity("Some error in method", HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>("Director-Movie pair added to database successfully", HttpStatus.ACCEPTED);
+        return new ResponseEntity<>("success", HttpStatus.ACCEPTED);
     }
 
     @GetMapping("/movies/get-movie-by-name/{name}")
@@ -54,12 +56,14 @@ public class MovieController {
 
     @DeleteMapping("/movies/delete-director-by-name")
     public ResponseEntity<String> deleteDirectorByName(@RequestParam("director") String directorName){
-        return new ResponseEntity<>(movieService.deleteDirectorMoviesService(directorName), HttpStatus.OK);
+        movieService.deleteDirectorMoviesService(directorName);
+        return new ResponseEntity<>("success", HttpStatus.OK);
     }
 
     @DeleteMapping("/movies/delete-all-directors")
     public ResponseEntity<String> deleteAllDirectors(){
-        return new ResponseEntity<>(movieService.deleteAllDirectorMoviesService(), HttpStatus.OK);
+        movieService.deleteAllDirectorMoviesService();
+        return new ResponseEntity<>("success", HttpStatus.OK);
     }
 
 }
