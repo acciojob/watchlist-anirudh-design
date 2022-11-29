@@ -13,55 +13,43 @@ import java.util.Map;
 public class MovieRepository {
     Map<Director, List<Movie>> hm=new HashMap<>();
 
-    public String addMovieToDB(Movie movie){
+    public void addMovieToDB(Movie movie){
         List<Movie> movies;
         if(hm.size()==0){
             movies = new ArrayList<>();
         }
         else{
-            for(Director d:hm.keySet()){
-                List<Movie> x=hm.get(d);
-                for(Movie m:x){
-                    if(m.getName().equals(movie.getName())) return "Movie already there in the database";
-                }
-            }
             movies = hm.get(null);
         }
         movies.add(movie);
         hm.put(null, movies);
-        return "Movie added successfully";
     }
 
-    public String addDirectorToDB(Director director){
-        if(hm.containsKey(director)) return "Director already added to the database";
+    public void addDirectorToDB(Director director){
         hm.put(director, new ArrayList<Movie>());
-        return "Director added successfully to the database";
     }
 
-    public String addMovieDirectorPairToDB(String movieName, String directorName){
-        List<Movie> x=null;
+    public void addMovieDirectorPairToDB(String movieName, String directorName){
         for(Director d:hm.keySet()){
-            if(d!=null && d.getName().equals(directorName)) {
-                x=hm.get(d);
-                break;
+            List<Movie> x=null;
+            if(d!=null && d.getName().equals(directorName)) x =hm.get(d);
+            List<Movie> y=hm.get(null);
+            boolean flag=false;
+            Movie m1=null;
+            for(Movie m:y){
+                if(m.getName().equals(movieName)){
+                    m1=m;
+                    flag=true;
+                    x.add(m);
+                    hm.put(d, x);
+                }
+            }
+            if(flag){
+                y.remove(m1);
+                hm.put(null, y);
             }
         }
-        Movie m1=null;
-        List<Movie> movies=hm.get(null);
-        for(Movie m:movies){
-            if(m.getName().equals(movieName)){
-                m1=m;
-                break;
-            }
-        }
-        if(m1==null) return "Either Movie is not there in the database or the Movie is already paired with a Director in the database";
-        if(x.contains(m1)) return "Director-Movie pair already exists in the database";
-        List<Movie> y=hm.get(null);
-        y.remove(m1);
-        hm.put(null, y);
         if(hm.get(null).size()==0) hm.remove(null);
-        if(!x.contains(m1)) x.add(m1);
-        return "Director-Movie pair added successfully to the database";
     }
 
     public Movie getMovieFromDB(String movieName){
@@ -83,7 +71,6 @@ public class MovieRepository {
             if(d!=null && d.getName().equals(directorName)){
                 List<Movie> movies=hm.get(d);
                 for(Movie m:movies) res.add(m.getName());
-                break;
             }
         }
         return null;
@@ -97,25 +84,18 @@ public class MovieRepository {
         return allMovies;
     }
 
-    public String deleteDirectorMoviesFromDB(String directorName){
-        boolean f=false;
-        for(Director d:hm.keySet()){
+    public void deleteDirectorMoviesFromDB(String directorName){
+        for(Director d:new ArrayList<>(hm.keySet())){
             if(d!=null && d.getName().equals(directorName)){
-                f=true;
                 hm.remove(d);
-                break;
             }
         }
-        if(f) return "Director and his/her movies deleted from database";
-        return "Director with given name does not exist in the database";
     }
 
-    public String deleteAllDirectorMoviesFromDB(){
-        if(hm.size()==0) return "The database is empty";
-        for(Director d:hm.keySet()){
+    public void deleteAllDirectorMoviesFromDB(){
+        for(Director d:new ArrayList<>(hm.keySet())){
             if(d!=null) hm.remove(d);
         }
-        return "All the directors and their movies deleted from the database";
     }
 
 }
