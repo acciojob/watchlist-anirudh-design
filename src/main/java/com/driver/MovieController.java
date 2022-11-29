@@ -31,39 +31,39 @@ public class MovieController {
         }catch (Exception e){
             return new ResponseEntity("Some error in method", HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>("success", HttpStatus.ACCEPTED);
+        return new ResponseEntity<>("success", HttpStatus.CREATED);
     }
 
     @GetMapping("/movies/get-movie-by-name/{name}")
     public ResponseEntity<Movie> getMovieByName(@PathVariable("name") String movieName){
-        return new ResponseEntity<>(movieService.getMovieService(movieName), HttpStatus.OK);
+        return new ResponseEntity<>(movieService.getMovieService(movieName), HttpStatus.ACCEPTED);
     }
 
     @GetMapping("/movies/get-director-by-name/{name}")
     public ResponseEntity<Director> getDirectorByName(@PathVariable("name") String directorName){
-        return new ResponseEntity<>(movieService.getDirectorService(directorName), HttpStatus.OK);
+        return new ResponseEntity<>(movieService.getDirectorService(directorName), HttpStatus.ACCEPTED);
     }
 
     @GetMapping("/movies/get-movies-by-director-name/{director}")
     public ResponseEntity<List<String>> getMoviesByDirectorName(@PathVariable("director") String directorName){
-        return new ResponseEntity<>(movieService.getMoviesListService(directorName), HttpStatus.OK);
+        return new ResponseEntity<>(movieService.getMoviesListService(directorName), HttpStatus.ACCEPTED);
     }
 
     @GetMapping("/movies/get-all-movies")
     public ResponseEntity<List<String>> findAllMovies(){
-        return new ResponseEntity<>(movieService.getAllMoviesService(), HttpStatus.OK);
+        return new ResponseEntity<>(movieService.getAllMoviesService(), HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping("/movies/delete-director-by-name")
     public ResponseEntity<String> deleteDirectorByName(@RequestParam("director") String directorName){
         movieService.deleteDirectorMoviesService(directorName);
-        return new ResponseEntity<>("success", HttpStatus.OK);
+        return new ResponseEntity<>("success", HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping("/movies/delete-all-directors")
     public ResponseEntity<String> deleteAllDirectors(){
         movieService.deleteAllDirectorMoviesService();
-        return new ResponseEntity<>("success", HttpStatus.OK);
+        return new ResponseEntity<>("success", HttpStatus.ACCEPTED);
     }
 
 }

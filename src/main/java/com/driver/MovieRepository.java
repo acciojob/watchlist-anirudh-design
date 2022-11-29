@@ -69,12 +69,12 @@ public class MovieRepository {
             List<Movie> movies=hm.get(d);
             for(Movie m:movies) if(m.getName().equals(movieName)) return m;
         }
-        return null;
+        return new Movie();
     }
 
     public Director getDirectorFromDB(String directorName){
         for(Director d:hm.keySet()) if(d!=null && d.getName().equals(directorName)) return d;
-        return null;
+        return new Director();
     }
 
     public List<String> getMoviesListFromDB(String directorName){
