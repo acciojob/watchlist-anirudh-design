@@ -59,6 +59,9 @@ public class MovieRepository {
         hm.put(null, y);
         if(hm.get(null).size()==0) hm.remove(null);
         if(!x.contains(m1)) x.add(m1);
+        for(Director d:hm.keySet()){
+            if (d != null && d.getName().equals(directorName)) hm.put(d, x);
+        }
     }
 
     public Movie getMovieFromDB(String movieName){
