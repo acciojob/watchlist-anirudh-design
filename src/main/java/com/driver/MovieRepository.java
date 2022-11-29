@@ -86,7 +86,7 @@ public class MovieRepository {
                 break;
             }
         }
-        return null;
+        return res;
     }
 
     public List<String> getAllMoviesFromDB(){
