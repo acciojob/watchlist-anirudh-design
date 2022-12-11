@@ -29,7 +29,7 @@ public class MovieController {
         try {
             movieService.addMovieDirectorPairService(movieName, directorName);
         }catch (Exception e){
-            return new ResponseEntity("Some error in method", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Some error in method", HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>("success", HttpStatus.CREATED);
     }
@@ -65,5 +65,4 @@ public class MovieController {
         movieService.deleteAllDirectorMoviesService();
         return new ResponseEntity<>("success", HttpStatus.ACCEPTED);
     }
-
 }
